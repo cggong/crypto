@@ -1,0 +1,39 @@
+Execute Trevisan's extractor with the following arguments:
+-n [input length (in bits)]
+-m [output length (in bits)]
+-i [input file]
+-a [min-entropy rate of the input file]
+-e [eps: error tolerance, the distance between extracted output distribution and uniform distribution]
+-o [output file]
+-v (either or not display verbose information of the parameters)
+
+* the seed file should be given as "seed" in the same directory.
+** in case the input file or seed file is larger than the necessary size, the program operates only on the beginning and ignores the unnecessary part.
+*** for some combination of parameters, the extractor cannot work because of the underlying implementation does not support algebra over fields of size greater than 2^{64}.
+--------------------------------------------------------------------------------
+
+
+
+Here is an example of how to invoke the extractor and extract 10k bits (and save to extracted_sample) from 1M bits (stored in the file input_sample) with min-entropy 0.5M bits and error tolerance 0.001. 
+
+./tre_ext -n 1000000 -m 10000 -i input_sample -a 0.5 -e 0.001 -o extracted_sample -v
+
+
+
+The execution outputs the following on screen, which means the running time is 24.9 seconds and uses 16384 bits from the seed.
+-------------------------------------------------------------------
+Physical parameters: 
+n = 1000000 m = 10000 k = 500000 d = 0
+alpha = 0.5 eps = 0.001
+ignore entropy: 0 dryrun: 0 verbose: 0
+source: input_sample output: extracted_sample
+
+Picked ECC Field irreducible polynomial 549755813905
+Warning (gf2x): t(requested)=77 is not in the form 2^k (using t=128 instead)
+Picked weak design irreducible polynomial 131
+gf2x-WD: m=10000, log(m)=13.2877, t=128, log(t)=7, log_t =7, polynomial degree=2
+Updating d from the design ...
+Warning: Given seed length d=0 is insufficient! Raising to 16384
+Running time: 24.9s
+-------------------------------------------------------------------
+
